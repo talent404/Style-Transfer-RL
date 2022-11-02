@@ -168,6 +168,20 @@ class Xsum(TextGenPool):
         pool_instance = cls(samples)
         return pool_instance
 
+class Style(TextGenPool):
+    @classmethod
+    def prepare(cls, split:str):
+        dataset_src = open(f'/home/hv2237/Style-Transfer/Data/simplification/{split}.0')
+        dataset_tgt = open(f'/home/hv2237/Style-Transfer/Data/simplification/{split}.1')
+        samples = []
+        for ix, (src, tgt) in enumerate(zip(dataset_src, dataset_tgt)):
+            sample = Sample(id=f"{split}_{ix}",
+                            prompt_or_input_text=src,
+                            references=[tgt]
+                            )
+            samples.append(sample)
+        pool_instance = cls(samples)
+        return pool_instance
 
 class CNNDailyMail(TextGenPool):
     @classmethod
